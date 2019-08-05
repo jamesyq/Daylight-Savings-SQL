@@ -1,0 +1,21 @@
+DECLARE @VarLimit_Summer as datetime,
+@VarLimit_Winter as  datetime,
+@Hours_toADD as INT,
+@Current_Date as datetime
+
+SET @VarLimit_Summer = (SELECT CAST( ( CAST(DATEPART(YEAR, GETDATE()) AS varchar(4)) + '-03-31 02:00:00.000') as datetime))
+SET @VarLimit_Winter = (SELECT CAST( ( CAST(DATEPART(YEAR, GETDATE()) AS varchar(4)) + '-10-27 02:00:00.000') as datetime))
+SET @Current_Date = (SELECT GETDATE()) 
+SET @Hours_toADD = 0
+
+SET @Hours_toADD = (
+SELECT 
+CASE  
+	WHEN ((@Current_Date > @VarLimit_Summer) AND (@Current_Date < @VarLimit_Winter)) THEN 
+		 '2'
+		ELSE 
+		'1'
+END as 'Date'
+)
+
+SELECT @Hours_toADD as DateAdd
